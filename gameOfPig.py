@@ -63,6 +63,7 @@ while True:
     if p_tot >= 100:
         print("Player wins.")
         break
+    
     c_tot += computer_turn(c_tot)
     print("Computer total points: "+ str(c_tot) + "\n")
     if c_tot >= 100:
