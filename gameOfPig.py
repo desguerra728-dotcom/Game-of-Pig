@@ -1,8 +1,12 @@
 import random
 
+def summary(player, turn_tot, p_tot):
+    print(player + "'s turn points: " + str(turn_tot))
+    print("Points to 100: " + str(100-p_tot-turn_tot) +"\n")
+
 def dice(player):
     roll = random.randint(1,6)
-    print(player + " rolled a " + str(roll))
+    print("\n" + player + " rolled a " + str(roll))
     return roll
 
 def bank_or_roll():
@@ -32,7 +36,7 @@ def player_turn(p_tot):
         if roll == 1:
             return 0
         turn_tot += roll
-        print("Turn points: " + str(turn_tot)+"\n")
+        summary("Player", turn_tot, p_tot)
         if (turn_tot + p_tot) >= 100:
             return turn_tot
         isBanking = ask()
@@ -43,11 +47,11 @@ def computer_turn(c_tot):
     turn_tot = 0
     print("COMPUTER TURN:")
     while True:
-        roll = dice("Computer ")
+        roll = dice("Computer")
         if roll == 1:
             return 0
         turn_tot += roll
-        print("Turn points: " + str(turn_tot)+"\n")
+        summary("Computer", turn_tot, c_tot)
         if ((turn_tot + c_tot) >= 100):
             return turn_tot
         isBanking = bank_or_roll()
