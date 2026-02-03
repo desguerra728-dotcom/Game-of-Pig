@@ -6,9 +6,12 @@ def say_hi():
     clicked = not clicked
 
     if clicked:
-        label.config(text = "Click Me", bg = "green")
-    else:
         label.config(text = "You clicked the button", bg = "blue")
+        button.config(text = "Unclick Me", bg = "red")
+    else:
+        label.config(text = "Click Me", bg = "green")
+        button.config(text = "Click Me", bg = "green")
+
 
 # create main window
 root = tk.Tk()
