@@ -61,7 +61,7 @@ alive = True
 def run_game():
     global alive
     if not alive:
-        canvas.create_text(WIDTH//2, HEIGHT//2, text = "game-o v e  r .. .   .", fill = "#ffffff", font = ("Courier", 20))
+        canvas.create_text(WIDTH//2, 20, text = "game-o v e  r .. .   .", fill = "#ffffff", font = ("Courier", 20))
         return
     
     if random.randint(1,20)==1:
