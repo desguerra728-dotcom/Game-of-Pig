@@ -1,6 +1,10 @@
 import tkinter as tk
 import random
 
+score = 0
+player = None
+
+
 # declare constants
 WIDTH = 400
 HEIGHT = WIDTH*.75
@@ -16,7 +20,9 @@ canvas=tk.Canvas(root, width = WIDTH, height = HEIGHT, bg = "#2B2B2B")
 canvas.pack()
 
 # make player
-player = canvas.create_rectangle(180, 250, 180+PLAYER_SIZE, 250+PLAYER_SIZE, fill = "#B6B6B6")
+def make_player():
+    global player
+    player = canvas.create_rectangle(180, 250, 180+PLAYER_SIZE, 250+PLAYER_SIZE, fill = "#B6B6B6")
 
 # make list to hold enemies
 enemies = []
@@ -55,13 +61,15 @@ def spawn_enemy():
     enemy = canvas.create_rectangle( x, 0, x+ENEMY_SIZE, ENEMY_SIZE, fill = enemy_colors[random.randint(0,5)])
     enemies.append(enemy)
 
+
 # make alive bool
 alive = True
 
-def run_game():
+def run_game(score):
+    graveyard = canvas.create_rectangle(0, HEIGHT-10, WIDTH, HEIGHT, fill = "cyan")
     global alive
     if not alive:
-        canvas.create_text(WIDTH//2, 20, text = "game-o v e  r .. .   .", fill = "#ffffff", font = ("Courier", 20))
+        canvas.create_text(WIDTH//2, HEIGHT//2, text = "game-o v e  r .. .   .", fill = "#ffffff", font = ("Courier", 20))
         return
     
     if random.randint(1,20)==1:
@@ -76,10 +84,33 @@ def run_game():
 
             if ex1<px2 and ex2>px1 and ey1<py2 and ey2>py1:
                 alive = False
+        
+        if canvas.bbox(enemy) and canvas.bbox(graveyard):
+            ex1, ey1, ex2, ey2 = canvas.bbox(enemy)
+            gx1, gy1, gx2, gy2 = canvas.bbox(graveyard)
+            
+            if ex1<gx2 and ex2>gx1 and ey1<gy2 and ey2>gy1:
+                score+=1
+                print(score)
+
     
     root.after(50, run_game)
 
+def game(score):
+    make_player()
+    run_game(score)
+
+# reset button
+def reset(score):
+    canvas.delete("all")
+    global alive
+    alive = True
+    score = 0
+    game(score)
+
+reset_button = tk.Button(root, text = "reset", command = reset, bg = "#2B2B2B", font = ("Courier", 10))
+reset_button.pack()
 
 
-run_game()
+game(score)
 root.mainloop()
