@@ -68,15 +68,17 @@ alive = True
 def run_game():
     global score
     global SPEED_MULTIPLIER
+    global alive
+    
     if score > (10*SPEED_MULTIPLIER):
         SPEED_MULTIPLIER += 1
         
     canvas.create_rectangle(0,0,WIDTH,20, fill = "#242424")
     canvas.create_text(50, 10, text = "score: " + str(score), fill = "#ffffff", font = ("Courier"))
-    global alive
+    canvas.create_text(350, 10, text = "level: " + str(SPEED_MULTIPLIER-1), fill = "#ffffff", font = ("Courier"))
+    
     if not alive:
         canvas.create_text(WIDTH//2, HEIGHT//2, text = "game-o v e  r .. .   .", fill = "#ffffff", font = ("Courier", 20))
-        score = 0
         return
     
     if random.randint(1,20)==1:
@@ -91,7 +93,6 @@ def run_game():
 
             if ex1<px2 and ex2>px1 and ey1<py2 and ey2>py1:
                 alive = False
-                SPEED_MULTIPLIER = 1
 
             if ey1 >= HEIGHT:
                 score +=1
@@ -102,9 +103,15 @@ def run_game():
 
 # reset button
 def reset():
-    canvas.delete("all")
+    global score
+    global SPEED_MULTIPLIER
     global alive
+
+    canvas.delete("all")
+    score = 0
+    SPEED_MULTIPLIER = 1
     alive = True
+
     make_player()
     run_game()
 
