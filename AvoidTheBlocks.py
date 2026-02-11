@@ -56,9 +56,14 @@ root.bind("<Down>", move_down)
 
 # enemies
 enemy_colors = ["#4B4B4B","#504F4F","#636161","#7E7D7D","#8D8B8B", "#9C9B9B"]
+colors2 = ["#ffffff", "#e9dfff", "#ccb4ff", "#b998ff", "#a076fa", "#5100ff"]
 def spawn_enemy():
     x = random.randint(0, WIDTH-ENEMY_SIZE)
-    enemy = canvas.create_rectangle( x, 0, x+ENEMY_SIZE, ENEMY_SIZE, fill = enemy_colors[random.randint(0,5)])
+    if SPEED_MULTIPLIER<2:
+        enemy = canvas.create_rectangle( x, 0, x+ENEMY_SIZE, ENEMY_SIZE, fill = enemy_colors[random.randint(0,5)])
+    else:
+        enemy = canvas.create_rectangle( x, 0, x+ENEMY_SIZE, ENEMY_SIZE, fill = colors2[random.randint(0,5)])
+        
     enemies.append(enemy)
 
 
