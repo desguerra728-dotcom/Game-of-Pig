@@ -10,6 +10,7 @@ HEIGHT = WIDTH*.75
 PLAYER_SIZE = 30
 ENEMY_SIZE = 20
 MOVE_SPEED = 20
+SPEED_MULTIPLIER = 1
 
 # build window
 root=tk.Tk()
@@ -66,11 +67,15 @@ alive = True
 
 def run_game():
     global score
+    global SPEED_MULTIPLIER
+    if score > (10*SPEED_MULTIPLIER):
+        SPEED_MULTIPLIER += 1
+        
     canvas.create_rectangle(0,0,WIDTH,20, fill = "#242424")
-    score_box = canvas.create_text(50, 10, text = "score: " + str(score), fill = "#ffffff", font = ("Courier"))
+    canvas.create_text(50, 10, text = "score: " + str(score), fill = "#ffffff", font = ("Courier"))
     global alive
     if not alive:
-        score_box = canvas.create_text(WIDTH//2, HEIGHT//2, text = "game-o v e  r .. .   .", fill = "#ffffff", font = ("Courier", 20))
+        canvas.create_text(WIDTH//2, HEIGHT//2, text = "game-o v e  r .. .   .", fill = "#ffffff", font = ("Courier", 20))
         score = 0
         return
     
@@ -78,7 +83,7 @@ def run_game():
         spawn_enemy()
 
     for enemy in enemies:
-        canvas.move(enemy, 0, 10)
+        canvas.move(enemy, 0, 10 *SPEED_MULTIPLIER)
 
         if canvas.bbox(enemy) and canvas.bbox(player):
             ex1, ey1, ex2, ey2 = canvas.bbox(enemy)
@@ -86,6 +91,7 @@ def run_game():
 
             if ex1<px2 and ex2>px1 and ey1<py2 and ey2>py1:
                 alive = False
+                SPEED_MULTIPLIER = 1
 
             if ey1 >= HEIGHT:
                 score +=1
