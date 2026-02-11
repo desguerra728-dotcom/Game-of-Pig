@@ -69,8 +69,8 @@ def run_game():
     global score
     global SPEED_MULTIPLIER
     global alive
-    
-    if score > (10*SPEED_MULTIPLIER):
+
+    if score >= (10*SPEED_MULTIPLIER):
         SPEED_MULTIPLIER += 1
         
     canvas.create_rectangle(0,0,WIDTH,20, fill = "#242424")
@@ -97,7 +97,6 @@ def run_game():
             if ey1 >= HEIGHT:
                 score +=1
                 enemies.remove(enemy)
-                print(score)
 
     root.after(50, run_game)
 
