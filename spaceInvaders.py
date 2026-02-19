@@ -106,3 +106,46 @@ def shoot(event):
     lasers.append(l)
 
 root.bind("<space>", shoot)
+
+# collisions -- helper function, returns bool
+def collision(a,l): # a: alien, l: laser
+    ax1, ay1, ax2, ay2 = canvas.bbox(a) # alien bbox
+    lx1, ly1, lx2, ly2 = canvas.bbox(l) # laser bbox
+
+    return ax1 < lx2 and ax2 < lx1 and ay1 < ly2 and ay2 > ly1 # when True, have overlap
+
+# formation movement
+enemy_dx = 4
+
+def move_enemies():
+    global enemy_dx
+
+    hit_wall = False
+    for e in enemies:
+        x1, y1, x2, y2 = canvas.bbox(e)
+
+        if x2 >= WIDTH-10 and enemy_dx > 0:
+            hit_wall = True
+
+        if x1 <= 10 and enemy_dx < 0:
+            hit_wall = True
+
+    if hit_wall:
+        enemy_dx = -enemy_dx
+        for e in enemies:
+            canvas.move(e, 0, 15) # move enemy, don't move on x, move down on y by 15
+
+    else:
+        for e in enemies:
+            canvas.move(e, enemy_dx, 0) # move enemy, move by dx, don't move on y
+
+# game loop
+
+
+# laser movement
+
+# laser-alien collision
+
+# end game condition
+
+# start game and reset
