@@ -52,6 +52,12 @@ enemy_img = make_enemy_sprite()
 # create player
 player = canvas.create_image(WIDTH//2, HEIGHT-40, image=player_img, anchor="center")
 
+
+def start():
+    # create player
+    player = canvas.create_image(WIDTH//2, HEIGHT-40, image=player_img, anchor="center")
+    game_loop()
+
 # enemy formation; enemies move as group
 ROWS = 4
 COLS = 8
@@ -173,12 +179,30 @@ def game_loop():
             
             break
 
+    # end game condition
+    for e in enemies:
+        ex1, ey1, ex2, ey2 = canvas.bbox(e)
+        px1, py1, px2, py2 = canvas.bbox(player)
 
+        if ey2 <= py1:
+            alive = False
 
 
     root.after(40, game_loop)
-    
 
-# end game condition
+def reset(event = None):
+    global alive, enemy_dx
+    canvas.delete("all")
+    lasers.clear()
+    enemies.clear()
 
-# start game and reset
+    alive = True
+    enemy_dx = 4
+
+    create_enemy_formation()
+    start()
+
+root.bind("r", reset)
+
+reset()
+root.mainloop()
