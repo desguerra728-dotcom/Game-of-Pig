@@ -84,7 +84,7 @@ root.bind("<Left>", move_left)
 root.bind("<Right>", move_right)
 
 # lasers
-laser = [] # list of lasers
+lasers = [] # list of lasers
 
 def make_laser_sprite():
     img = tk.PhotoImage(width=4, height=10)
@@ -140,11 +140,44 @@ def move_enemies():
             canvas.move(e, enemy_dx, 0) # move enemy, move by dx, don't move on y
 
 # game loop
+def game_loop():
+    global alive
+
+    if not alive:
+        canvas.delete("all")
+        canvas.create_text(WIDTH//2, HEIGHT//2, text = "GAME OVER", fill = "red")
+        return
+    
+    move_enemies()
+
+    # laser movement
+    for l in lasers[:]: # [:] copy of list, protects original list
+        canvas.move(l, 0, -12)
+        x1, y1, x2, y2 = canvas.bbox(l)
+        if y2<0:
+            canvas.delete(l)
+            lasers.remove(l)
+
+    # laser-alien collision
+    for l in lasers[:]:
+        for e in enemies[:]:
+            if collision(l, e):
+                canvas.delete(l)
+                canvas.delete(e)
+
+                if l in lasers:
+                    lasers.remove(l)
+
+                if e in enemies:
+                    enemies.remove(e)
+            
+            break
 
 
-# laser movement
 
-# laser-alien collision
+
+    root.after(40, game_loop)
+    
 
 # end game condition
 
