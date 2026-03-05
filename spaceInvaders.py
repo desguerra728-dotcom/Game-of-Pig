@@ -21,7 +21,7 @@ def make_enemy_sprite():
 
     for y in range(h):
         for x in range(w):
-            if pattern[y][x] == 1:
+            if pattern[y][x] == "1":
                 img.put = ("#ffffff", (x,y))
 
     return img
@@ -145,64 +145,64 @@ def move_enemies():
         for e in enemies:
             canvas.move(e, enemy_dx, 0) # move enemy, move by dx, don't move on y
 
-# game loop
-def game_loop():
-    global alive
+# # game loop
+# def game_loop():
+#     global alive
 
-    if not alive:
-        canvas.delete("all")
-        canvas.create_text(WIDTH//2, HEIGHT//2, text = "GAME OVER", fill = "red")
-        return
+#     if not alive:
+#         canvas.delete("all")
+#         canvas.create_text(WIDTH//2, HEIGHT//2, text = "GAME OVER", fill = "red")
+#         return
     
-    move_enemies()
+#     move_enemies()
 
-    # laser movement
-    for l in lasers[:]: # [:] copy of list, protects original list
-        canvas.move(l, 0, -12)
-        x1, y1, x2, y2 = canvas.bbox(l)
-        if y2<0:
-            canvas.delete(l)
-            lasers.remove(l)
+#     # laser movement
+#     for l in lasers[:]: # [:] copy of list, protects original list
+#         canvas.move(l, 0, -12)
+#         x1, y1, x2, y2 = canvas.bbox(l)
+#         if y2<0:
+#             canvas.delete(l)
+#             lasers.remove(l)
 
-    # laser-alien collision
-    for l in lasers[:]:
-        for e in enemies[:]:
-            if collision(l, e):
-                canvas.delete(l)
-                canvas.delete(e)
+#     # laser-alien collision
+#     for l in lasers[:]:
+#         for e in enemies[:]:
+#             if collision(l, e):
+#                 canvas.delete(l)
+#                 canvas.delete(e)
 
-                if l in lasers:
-                    lasers.remove(l)
+#                 if l in lasers:
+#                     lasers.remove(l)
 
-                if e in enemies:
-                    enemies.remove(e)
+#                 if e in enemies:
+#                     enemies.remove(e)
             
-            break
+#             break
 
-    # end game condition
-    for e in enemies:
-        ex1, ey1, ex2, ey2 = canvas.bbox(e)
-        px1, py1, px2, py2 = canvas.bbox(player)
+#     # end game condition
+#     for e in enemies:
+#         ex1, ey1, ex2, ey2 = canvas.bbox(e)
+#         px1, py1, px2, py2 = canvas.bbox(player)
 
-        if ey2 <= py1:
-            alive = False
+#         if ey2 <= py1:
+#             alive = False
 
 
-    root.after(40, game_loop)
+#     root.after(40, game_loop)
 
-def reset(event = None):
-    global alive, enemy_dx
-    canvas.delete("all")
-    lasers.clear()
-    enemies.clear()
+# def reset(event = None):
+#     global alive, enemy_dx
+#     canvas.delete("all")
+#     lasers.clear()
+#     enemies.clear()
 
-    alive = True
-    enemy_dx = 4
+#     alive = True
+#     enemy_dx = 4
 
-    create_enemy_formation()
-    start()
+#     create_enemy_formation()
+#     start()
 
-root.bind("r", reset)
+# root.bind("r", reset)
 
-reset()
+# reset()
 root.mainloop()

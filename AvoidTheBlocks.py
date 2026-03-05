@@ -116,7 +116,7 @@ def reset():
     SPEED_MULTIPLIER = 1
     alive = True
 
-    make_player()
+    # make_player()
     run_game()
 
 reset_button = tk.Button(root, text = "reset", command = reset, bg = "#2B2B2B", font = ("Courier", 10))
